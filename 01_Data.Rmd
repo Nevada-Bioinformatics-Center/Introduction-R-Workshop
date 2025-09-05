@@ -1,0 +1,1185 @@
+---
+title: Working with Data in R
+author: "Nevada Bioinformatics Center"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    keep_md: true
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+      smooth_scroll: true
+    theme: readable
+    highlight: tango
+---
+
+## Objectives
+
+- Code in R
+- Understand R terms
+- Create a reproducible workflow
+- Work with built-in R datasets
+
+# Coding in R
+
+You can use R as a command line interface (CLI). A *command* is a way of giving the computer some information to perform a task. For example, like a calculator:
+
+
+```{r}
+4 + 2
+```
+
+```{r}
+9 / 3
+```
+
+
+## How R Views Data
+
+R organizes information into different types of **data structures**. Understanding these structures is key to working effectively with R. Let's explore the main types:
+
+### Single Values (Scalars)
+The simplest data structure is a single value:
+
+```{r}
+# Numbers
+my_number <- 42
+my_number
+
+# Text (character strings)
+my_name <- "Nevada Bioinformatics"
+my_name
+
+# Logical values (TRUE/FALSE)
+my_logical <- TRUE
+my_logical
+```
+
+### Vectors
+A **vector** is a collection of values of the same type. Vectors are the building blocks of R:
+
+```{r}
+# Numeric vector
+ages <- c(25, 30, 35, 40)
+ages
+
+# Character vector
+names <- c("Alice", "Bob", "Charlie", "Diana")
+names
+
+# Logical vector
+passed_exam <- c(TRUE, FALSE, TRUE, TRUE)
+passed_exam
+```
+
+The `c()` function **c**ombines values into a vector. Notice how we use quotes for text but not for numbers or logical values.
+
+### Data Frames
+A **data frame** is like a spreadsheet - it has rows and columns where each column can be a different type of data:
+
+```{r}
+# Create a simple data frame
+student_data <- data.frame(
+  name = c("Alice", "Bob", "Charlie"),
+  age = c(25, 30, 35),
+  passed = c(TRUE, FALSE, TRUE)
+)
+student_data
+```
+
+### Lists
+A **list** can hold different types of objects, including other lists:
+
+```{r}
+# Create a list with different types of data
+my_list <- list(
+  numbers = c(1, 2, 3),
+  text = "Hello World",
+  data = student_data
+)
+my_list
+```
+
+### Matrices
+A **matrix** is like a data frame but all values must be the same type:
+
+```{r}
+# Create a 3x3 matrix
+my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+my_matrix
+```
+
+## Checking Data Types
+
+R provides functions to check what type of data structure you're working with:
+
+```{r}
+# Check the type of object
+class(ages)         
+class(names)        
+class(student_data)  
+
+# Check the structure
+str(student_data)    
+
+# Check if it's a specific type
+is.vector(ages)     
+is.data.frame(ages)  
+```
+
+
+Understanding data structures helps you:
+
+- **Choose the right approach**: Different functions work with different data types
+- **Organize your data**: Knowing which structure fits your data best
+- **Read error messages**: Many errors relate to data type mismatches
+
+Let's see this in action:
+
+```{r}
+# This works - adding numbers
+numbers <- c(1, 2, 3, 4)
+sum(numbers)
+```
+
+
+```{r, eval=FALSE}
+
+# This doesn't work - trying to add text
+text <- c("a", "b", "c")
+sum(text)  # Would give an error!
+```
+
+
+## Creating and Using Variables
+
+One of the most powerful features of R is the ability to store values in **variables** (also called **objects**). This lets you save your work and reuse it later.
+
+### Assignment Operator
+
+We use the assignment operator `<-` to store values in variables:
+
+```{r}
+# Store a number in a variable
+my_age <- 25
+my_age
+
+# Store text in a variable
+my_name <- "Alex"
+my_name
+
+# Store the result of a calculation
+total_score <- 85 + 92 + 78
+total_score
+```
+
+**Tip**: In RStudio, you can type `<-` quickly by pressing <kbd>Alt</kbd> + <kbd>-</kbd> (PC) or <kbd>Option</kbd> + <kbd>-</kbd> (Mac).
+
+### Using Variables in Calculations
+
+Once you've stored values in variables, you can use them in calculations:
+
+```{r}
+# Store some values
+price_per_item <- 15.50
+number_of_items <- 4
+tax_rate <- 0.08
+
+# Calculate subtotal
+subtotal <- price_per_item * number_of_items
+subtotal
+
+# Calculate tax
+tax_amount <- subtotal * tax_rate
+tax_amount
+
+# Calculate final total
+final_total <- subtotal + tax_amount
+final_total
+```
+
+### Variables Don't Update Automatically
+
+This is one of the most important concepts to understand when working with variables in R. Unlike spreadsheet programs where cells automatically update when their inputs change, R variables are **static** - they only change when you explicitly tell them to.
+
+
+**Important**: When you change a variable, other variables that depend on it don't automatically update:
+
+```{r}
+# Initial calculation
+base_price <- 100
+discount <- 0.10
+discounted_price <- base_price * (1 - discount)
+discounted_price
+
+# Change the base price
+base_price <- 200
+
+# discounted_price is still based on the old value!
+discounted_price
+
+# You need to recalculate it
+discounted_price <- base_price * (1 - discount)
+discounted_price
+```
+
+
+
+### Variable Naming Rules
+
+Good variable names make your code easier to understand:
+
+```{r}
+# Good variable names
+student_count <- 30
+average_grade <- 87.5
+experiment_start_date <- "2024-01-15"
+
+# Less clear variable names (but still valid)
+x <- 30
+avg <- 87.5
+d <- "2024-01-15"
+```
+
+**Rules for naming variables:**
+
+- Can contain letters, numbers, dots (.), and underscores (_)
+- Cannot start with a number
+- Cannot contain spaces
+- Case-sensitive (`Age` and `age` are different)
+- Avoid using names of existing R functions (like `mean`, `sum`, `data`, `T`, `F`)
+
+### Why Use Variables?
+
+Variables make your code:
+
+- **Readable**: Clear names explain what values represent
+- **Reusable**: Calculate once, use many times
+- **Maintainable**: Change a value in one place, not throughout your code
+- **Less error-prone**: No need to retype the same number multiple times
+
+Try this example:
+
+```{r}
+# Without variables (hard to read and maintain)
+final_grade <- (85 + 92 + 78 + 88) / 4 * 0.6 + 95 * 0.4
+final_grade
+
+# With variables (much clearer!)
+exam1 <- 85
+exam2 <- 92
+exam3 <- 78
+exam4 <- 88
+final_exam <- 95
+
+exam_average <- (exam1 + exam2 + exam3 + exam4) / 4
+exam_weight <- 0.6
+final_weight <- 0.4
+
+final_grade <- exam_average * exam_weight + final_exam * final_weight
+final_grade
+```
+
+
+## Functions and Their Arguments
+
+Functions are pre-written pieces of code that perform specific tasks. They're like recipes--you give them ingredients (called **arguments**) and they give you back a result.
+
+### Basic Function Structure
+
+Every function in R follows this pattern:
+```
+function_name(argument1, argument2, ...)
+```
+One of the simplest functions is `print()`, which displays text or values to the console.
+
+````{r}
+# Print a message
+print("Hello, world!")
+````
+
+### Simple Functions
+
+Let's start with some basic math functions:
+
+```{r}
+# Square root function
+sqrt(16)
+sqrt(25)
+
+# Absolute value
+abs(-5)
+abs(3.2)
+
+# Round numbers
+round(3.14159)
+round(2.718)
+```
+
+### Functions with Multiple Arguments
+
+Many functions take more than one argument:
+
+```{r}
+# Round to specific decimal places
+round(3.14159, digits = 2)
+round(2.718281, digits = 3)
+
+# Exclude NA's from mean
+test_scores <- c(87, 93, 75, NA, 84)
+mean(test_scores, na.rm = TRUE)
+
+```
+
+### Getting Help with Functions
+
+Before using a function, you can learn about it:
+
+```{r, eval=FALSE}
+# Get help on the round function
+?round
+
+# See what arguments a function takes
+args(round)
+```
+
+Let's examine what `args(round)` tells us:
+
+- `x`: the number(s) to round
+- `digits`: how many decimal places (default is 0)
+
+### Named vs. Positional Arguments
+
+You can provide arguments in two ways:
+
+```{r}
+# Positional arguments (order matters)
+round(3.14159, 2)
+
+# Named arguments (order doesn't matter)
+round(digits = 2, x = 3.14159)
+round(x = 3.14159, digits = 2)
+```
+
+**Best practice**: Use names for optional arguments to make your code clearer.
+
+### Functions with Vectors
+
+Most R functions work with vectors (multiple values):
+
+```{r}
+# Create a vector of numbers
+numbers <- c(1.167, 2.873, 3.994, 4.225, 5.861)
+numbers
+
+# Apply functions to the entire vector
+round(numbers)
+round(numbers, digits = 1)
+sqrt(numbers)
+```
+
+### Statistical Functions
+
+R has many built-in statistical functions:
+
+```{r}
+# Create some sample data
+grades <- c(85, 92, 78, 88, 95, 82, 90)
+grades
+
+# Calculate statistics
+mean(grades)        # average
+median(grades)      # middle value
+max(grades)         # highest value
+min(grades)         # lowest value
+length(grades)      # count of values
+sum(grades)         # total
+```
+
+### Functions That Create Data
+
+Some functions create new data structures:
+
+```{r}
+# Create sequences
+seq(1, 10)              # numbers from 1 to 10
+seq(1, 10, by = 2)      # every 2nd number from 1 to 10
+seq(0, 1, by = 0.1)     # decimals from 0 to 1
+
+# Repeat values  
+rep(5, times = 3)       # repeat 5 three times
+rep(c(1, 2), times = 4) # repeat the vector 1,2 four times
+```
+
+
+
+**The colon operator (`:`)** is a handy shortcut for creating sequences of consecutive integers. It's much faster to type `1:5` than `c(1, 2, 3, 4, 5)` or `seq(1, 5)`.
+
+```{r}
+# These are all equivalent:
+1:5
+c(1, 2, 3, 4, 5)
+seq(1, 5)
+
+# Colon works in reverse too
+10:1                    # counts down: 10, 9, 8, 7, 6, 5, 4, 3, 2, 1
+```
+
+
+### Combining Functions
+
+You can use the output of one function as input to another:
+
+```{r}
+# Create data, then calculate
+numbers <- c(1, 4, 9, 16, 25)
+sqrt_numbers <- sqrt(numbers)
+mean_of_sqrt <- mean(sqrt_numbers)
+mean_of_sqrt
+
+# Or do it all in one line
+result <- mean(sqrt(c(1, 4, 9, 16, 25)))
+result
+
+```
+
+## Exercises
+
+### Exercise 1: Basic Functions
+Complete these calculations using R functions:
+
+```{r, eval=FALSE}
+# 1. Calculate the square root of 144
+# Your code here:
+
+# 2. Round 2.718281828 to 4 decimal places  
+# Your code here:
+
+# 3. Find the absolute value of -15.7
+# Your code here:
+```
+
+### Exercise 2: Working with Vectors
+Use this vector for the following exercises:
+
+```{r}
+test_scores <- c(78, 85, 92, 88, 76, 95, 82, 90, 87, 79)
+```
+
+```{r, eval=FALSE}
+# 1. Calculate the mean of test_scores
+# Your code here:
+
+# 2. Find the highest score
+# Your code here:
+
+# 3. Find the lowest score  
+# Your code here:
+
+# 4. Count how many scores there are
+# Your code here:
+
+# 5. Round the square root of all test scores to 2 digits
+# Your code here:
+
+```
+
+
+### Solutions
+
+<details>
+<summary>**Click here to see the solutions**</summary>
+
+```{r, eval=FALSE}
+# Exercise 1 Solutions
+sqrt(144)                    # 12
+round(2.718281828, digits = 4)  # 2.7183
+abs(-15.7)                   # 15.7
+
+# Exercise 2 Solutions  
+mean(test_scores)            # 85.2
+max(test_scores)             # 95
+min(test_scores)             # 76
+length(test_scores)          # 10
+round(sqrt(test_scores), digits = 2)  # rounds the square root of each number 
+```
+
+</details>
+
+Now that you understand how functions work, you're ready to start working with real datasets!
+
+
+# Working with Data
+
+## Built-in R datasets
+
+R comes with many built-in datasets that are perfect for learning and practice. These datasets are already loaded and ready to use - no need to download or import anything!
+
+### Exploring available datasets
+
+To see all available built-in datasets:
+
+```{r, eval=FALSE}
+data()  # Shows all available datasets
+```
+
+Some popular built-in datasets include:
+
+- **mtcars**: Car performance data (32 cars, 11 variables)
+- **iris**: Flower measurements (150 flowers, 5 variables) 
+- **airquality**: Air quality measurements in New York
+- **PlantGrowth**: Plant growth under different conditions
+
+### Loading and exploring a dataset
+
+Let's work with the **mtcars** dataset:
+
+```{r, eval=FALSE}
+# Load the dataset 
+# (not necessary for built-in data, but adds it to your Environment in RStudio)
+data(mtcars)
+
+# Look at the first few rows
+head(mtcars)
+
+# Get basic information about the dataset
+str(mtcars)
+
+# Summary statistics
+summary(mtcars)
+
+# Get help about the dataset
+?mtcars
+```
+
+The mtcars dataset contains information about 32 cars from 1974 Motor Trend magazine, including:
+
+- mpg: Miles per gallon
+- cyl: Number of cylinders
+- hp: Horsepower
+- wt: Weight
+- And more!
+
+## Exploring our practice dataset
+
+Let's explore the mtcars dataset to get familiar with R:
+
+```{r}
+# Look at the dataset
+mtcars
+
+# Get dimensions (rows and columns)
+dim(mtcars)
+nrow(mtcars)  # number of rows
+ncol(mtcars)  # number of columns
+
+# Get column names
+names(mtcars)
+
+# Overview of content
+head(mtcars) # First few rows
+tail(mtcars) # Last few rows
+
+# Summarize
+str(mtcars) # Structure
+summary(mtcars) # Summary statistics
+```
+
+## Accessing columns in data frames
+
+Before we start exploring datasets, we need to learn how to access specific parts of our data. Data frames are like spreadsheets - they have rows (observations) and columns (variables). To work with the data effectively, we need to know how to extract specific columns.
+
+### The `$` operator
+
+The `$` operator is R's way of saying "give me this specific column from this data frame." Think of it like pointing to a specific column in a spreadsheet.
+
+**Syntax**: `dataframe_name$column_name`
+
+This extracts the entire column as a vector, which you can then use with functions or store in other variables.
+
+```{r}
+# Look at specific columns
+mtcars$mpg        # miles per gallon
+mtcars$cyl        # number of cylinders
+
+# Basic statistics
+mean(mtcars$mpg)  # average miles per gallon
+max(mtcars$hp)    # maximum horsepower
+min(mtcars$wt)    # minimum weight
+```
+
+
+## Subsetting data frames
+
+**Subsetting** means selecting specific parts of your data - whether that's certain rows, certain columns, or both. This is one of the most powerful features in R because it lets you focus on exactly the data you need for your analysis.
+
+Subsetting is like filtering in a spreadsheet program, but much more flexible and powerful.
+
+### Understanding the bracket notation
+
+Data frames use **bracket notation** `[row, column]` to specify exactly which parts you want:
+
+- **Before the comma**: which rows you want
+- **After the comma**: which columns you want
+- **Leave blank**: means "give me all of them"
+
+For example:
+
+- `[1, ]` = first row, all columns
+- `[, 2]` = all rows, second column  
+- `[1:5, c(1,3)]` = first 5 rows, columns 1 and 3
+
+### Selecting columns
+
+We've already seen the `$` operator for selecting single columns. Here are other ways:
+
+```{r}
+# Select single columns
+mtcars$mpg                    # Using $
+mtcars[, "mpg"]              # Using brackets with column name
+mtcars[, 1]                  # Using brackets with column position
+
+# Select multiple columns
+mtcars[, c("mpg", "hp")]     # Multiple columns by name
+mtcars[, c(1, 4)]            # Multiple columns by position
+```
+
+### Selecting rows
+
+You can select specific rows using brackets:
+
+```{r}
+# Select specific rows
+mtcars[1, ]                  # First row, all columns
+mtcars[1:5, ]                # First 5 rows, all columns
+mtcars[c(1, 3, 5), ]         # Rows 1, 3, and 5, all columns
+```
+
+### Selecting rows and columns together
+
+```{r}
+# Select specific rows and columns
+mtcars[1:5, c("mpg", "hp")]  # First 5 rows, mpg and hp columns
+mtcars[1:3, 1:3]             # First 3 rows and first 3 columns
+```
+
+### Conditional subsetting
+
+This is where data frames get really powerful - you can select rows based on conditions:
+
+
+**How it works**: You create a logical test that returns `TRUE` or `FALSE` for each row, then R keeps only the rows where the test is `TRUE`.
+
+#### Comparison operators
+
+First, let's understand the comparison operators you can use:
+
+```{r}
+# Basic comparison operators:
+# ==  equal to (note: two equals signs!)
+# !=  not equal to  
+# >   greater than
+# <   less than
+# >=  greater than or equal to
+# <=  less than or equal to
+
+# Let's see these in action with a simple example
+test_values <- c(5, 10, 15, 20)
+test_values
+
+# Which values are greater than 10?
+test_values > 10  # Returns TRUE/FALSE for each value
+
+# Which values equal exactly 15?
+test_values == 15  # Returns TRUE/FALSE for each value
+```
+
+**Important**: Use `==` (two equals) for comparison, not `=` (one equals). Single `=` is for assignment, like `<-`.
+
+#### Basic conditional subsetting
+
+Now let's apply this to data frames:
+
+```{r}
+# Cars with more than 20 miles per gallon
+# First, let's see the logical test
+mtcars$mpg > 20  # TRUE/FALSE for each car
+
+# Now use it to subset
+high_mpg_cars <- mtcars[mtcars$mpg > 20, ]
+head(high_mpg_cars)
+
+# Cars with exactly 4 cylinders
+four_cyl_cars <- mtcars[mtcars$cyl == 4, ]
+nrow(four_cyl_cars)  # How many 4-cylinder cars?
+```
+
+#### Logical operators for multiple conditions
+
+You can combine multiple conditions using logical operators:
+
+- **`&`** means "AND" - both conditions must be true
+- **`|`** means "OR" - at least one condition must be true  
+- **`!`** means "NOT" - reverses TRUE/FALSE
+
+```{r}
+# AND operator (&): Both conditions must be true
+# Cars with high mpg AND low weight
+efficient_cars <- mtcars[mtcars$mpg > 25 & mtcars$wt < 3, ]
+efficient_cars
+nrow(efficient_cars)  # How many cars meet both criteria?
+
+# OR operator (|): At least one condition must be true
+# Cars that are either very powerful OR very efficient
+powerful_or_efficient <- mtcars[mtcars$hp > 200 | mtcars$mpg > 25, ]
+nrow(powerful_or_efficient)
+
+# Let's see what each condition captures separately:
+sum(mtcars$hp > 200)   # Cars with >200 hp
+sum(mtcars$mpg > 25)   # Cars with >25 mpg
+# The OR condition captures cars that meet either criterion
+
+# NOT operator (!): Reverse the condition
+# Cars that are NOT 4-cylinder
+not_four_cyl <- mtcars[!(mtcars$cyl == 4), ]
+# This is the same as:
+not_four_cyl_alt <- mtcars[mtcars$cyl != 4, ]
+```
+
+#### Complex conditions
+
+You can create more complex conditions by combining multiple operators:
+
+```{r}
+# Cars with good fuel economy (>20 mpg) that are either lightweight (<3000 lbs) 
+# OR have low horsepower (<100 hp)
+complex_condition <- mtcars[mtcars$mpg > 20 & (mtcars$wt < 3 | mtcars$hp < 100), ]
+head(complex_condition)
+
+# Note the parentheses! They control the order of operations
+# Without parentheses: mpg > 20 & wt < 3 | hp < 100
+# Would mean: (mpg > 20 & wt < 3) OR hp < 100
+
+# With parentheses: mpg > 20 & (wt < 3 | hp < 100)  
+# Means: mpg > 20 AND (wt < 3 OR hp < 100)
+```
+
+#### Working with text/factor conditions
+
+You can also use conditions with text or factor data:
+
+```{r}
+# Using the iris dataset
+data(iris)
+
+# Flowers of a specific species
+setosa_flowers <- iris[iris$Species == "setosa", ]
+head(setosa_flowers)
+
+# Flowers that are NOT setosa
+not_setosa <- iris[iris$Species != "setosa", ]
+head(not_setosa)
+
+# Multiple species using OR
+setosa_or_versicolor <- iris[iris$Species == "setosa" | iris$Species == "versicolor", ]
+head(setosa_or_versicolor)
+```
+
+#### The `%in%` operator
+
+When you want to check if values match any item in a list, use `%in%`:
+
+```{r}
+# Instead of writing long OR statements:
+# iris[iris$Species == "setosa" | iris$Species == "versicolor", ]
+
+# Use %in% for cleaner code:
+selected_species <- iris[iris$Species %in% c("setosa", "versicolor"), ]
+head(selected_species)
+
+# This is especially useful with numbers too:
+# Cars with 4 or 8 cylinders
+common_cylinders <- mtcars[mtcars$cyl %in% c(4, 8), ]
+table(common_cylinders$cyl)
+
+```
+
+### Useful functions for subsetting
+
+While bracket notation is powerful, R provides some specialized functions that make certain tasks easier.
+
+#### `which()` - Finding positions
+
+The `which()` function tells you the **positions** (row numbers) where conditions are true, rather than returning `TRUE`/`FALSE` values.
+
+```{r}
+# Compare logical indexing vs which()
+mtcars$cyl > 6           # Returns TRUE/FALSE for each car
+which(mtcars$cyl > 6)    # Returns the row numbers where it's TRUE
+
+# Use the positions to get specific rows
+high_cyl_positions <- which(mtcars$cyl > 6)
+mtcars[high_cyl_positions, c("mpg", "cyl", "hp")]
+```
+
+#### `which.max()` and `which.min()` - Finding extremes
+
+These find the position of the maximum or minimum value - useful for finding "record holders."
+
+```{r}
+# Find the car with highest mpg
+which.max(mtcars$mpg)                # Position number
+mtcars[which.max(mtcars$mpg), ]      # The actual car data
+rownames(mtcars)[which.max(mtcars$mpg)]  # Just the car name
+
+# Find the heaviest car
+mtcars[which.max(mtcars$wt), c("wt", "mpg", "hp")]
+```
+
+**When to use each:**
+
+- Use regular subsetting when you want all rows meeting a condition
+- Use `which()` when you need specific row positions  
+- Use `which.max()`/`which.min()` when you want the single best/worst case
+
+## Factors and levels
+
+**Factors** are R's way of handling categorical data (like categories or groups). They look like text but are stored differently, which makes them useful for analysis and plotting.
+
+**Factors** might seem confusing at first, but they're incredibly useful for working with categorical data. In real-world data analysis, you often have variables that represent categories rather than numbers - things like:
+
+- Survey responses (agree/disagree/neutral)
+- Treatment groups (control/treatment)
+- Geographic regions (north/south/east/west)
+- Product ratings (poor/fair/good/excellent)
+
+### What makes factors special?
+
+Regular text (character) data in R is just text. But factors are **categorical variables** - they represent a limited set of possible values (called **levels**). This distinction is important because:
+
+1. **Factors have a specific order** - you can control how categories appear in plots and tables
+2. **Statistical functions expect factors** - most analysis functions work better with proper categorical data
+3. **Factors save memory** - R stores each unique category name only once
+
+Let's see this in action:
+
+```{r}
+# Create a simple factor
+car_sizes <- factor(c("small", "medium", "large", "small", "large", "medium"))
+car_sizes
+
+# Look at the levels (categories)
+levels(car_sizes)
+
+# See the structure
+str(car_sizes)
+```
+
+Notice how R shows the levels and stores the data as numbers behind the scenes!
+
+### Working with the iris dataset
+
+Let's use the iris dataset which has a factor column:
+
+```{r}
+# Load and examine iris
+data(iris)
+head(iris)
+str(iris)
+
+# The Species column is a factor
+iris$Species
+levels(iris$Species)
+```
+
+
+Factors can ensure consistent categories (no typos like "setosa" vs "Setosa").
+
+```{r}
+# Count occurrences of each species
+table(iris$Species)
+
+# Create a simple bar plot
+barplot(table(iris$Species))
+```
+
+
+Let's create a factor:
+
+```{r}
+# Create character data
+colors <- c("red", "blue", "green", "red", "blue")
+colors
+
+# Convert to factor
+colors_factor <- as.factor(colors)
+colors_factor
+levels(colors_factor)  # Notice alphabetical order
+```
+
+### Handling missing data with factors
+
+Let's create an example with missing data:
+
+```{r}
+# Create data with missing values
+survey_responses <- c("agree", "disagree", "neutral", NA, "agree", NA, "disagree")
+survey_responses
+
+# Convert to factor
+survey_factor <- as.factor(survey_responses)
+survey_factor
+levels(survey_factor)  # NA is not a level
+
+# Count responses
+table(survey_factor)
+table(survey_factor, useNA = "ifany")  # Include NAs in count
+```
+
+Or we can replace NA's with `is.na()`: 
+
+```{r}
+# Replace NAs with "unknown"
+survey_responses[is.na(survey_responses)] <- "unknown"
+survey_responses
+
+# Convert to factor
+survey_clean <- as.factor(survey_responses)
+survey_clean
+levels(survey_clean)
+
+```
+
+### Reordering factor levels
+
+Factors are automatically leveled in alphabetical order. But we can change that by specifying the order:
+
+
+```{r}
+# Create a factor with logical order
+sizes <- factor(c("small", "large", "medium", "small", "medium", "large"))
+levels(sizes)  # Alphabetical order by default
+
+# Reorder levels logically
+sizes_ordered <- factor(sizes, levels = c("small", "medium", "large"))
+levels(sizes_ordered)
+
+```
+
+
+### Working with Data Sets
+
+Here's an example of categorizing your data set:
+
+```{r}
+# Check data structure
+str(mtcars)
+
+# We want our transmission type (am) to be a factor with manual first
+# First, let's see what the am variable looks like
+table(mtcars$am)  # 0 = automatic, 1 = manual
+
+# Convert to factor with descriptive labels and manual first
+mtcars$am <- factor(mtcars$am, 
+                   levels = c(1, 0),  # manual first, then automatic
+                   labels = c("manual", "automatic"))
+
+# Check the result
+str(mtcars$am)
+levels(mtcars$am)
+table(mtcars$am)
+
+# Simple plot
+barplot(table(mtcars$am))
+
+```
+
+
+## Basic plotting in R
+
+R has built-in functions for creating simple plots. 
+
+### Scatter plots with `plot()`
+
+The `plot()` function creates scatter plots to show relationships between two variables. You can customize the plot with titles and axis labels too.
+
+```{r}
+# Basic scatter plot
+plot(mtcars$hp, mtcars$mpg)
+
+# Add labels
+plot(mtcars$hp, mtcars$mpg,
+     main = "Fuel Efficiency vs Horsepower", # Main title
+     xlab = "Horsepower",                    # X-axis label
+     ylab = "Miles per Gallon")              # Y-axis label
+```
+
+### Bar plots with `barplot()`
+
+The `barplot()` function creates bar charts, often used with `table()` to show counts:
+
+```{r}
+# Count how many cars have each number of cylinders
+table(mtcars$cyl)
+
+# Create a bar plot of the counts
+barplot(table(mtcars$cyl))
+
+# Add a title
+barplot(table(mtcars$cyl),
+        main = "Number of Cars by Cylinder Count",
+        xlab = "Cylinders",
+        ylab = "Count")
+```
+
+These basic plots are great for quick data exploration. 
+
+
+## Exercise
+
+**How to approach these exercises**:
+
+- Try each one on your own first
+- Don't worry about making mistakes - that's how you learn!
+- If you get stuck, re-read the relevant section above
+- Check your answers against the solutions, but try not to peek too early
+- Remember: there's often more than one correct way to solve a problem in R
+
+**Tip**: Type out the code rather than copy-pasting. This helps you remember the syntax better.
+
+### Data Analysis Practice
+
+Let's practice what we've learned by doing a mini data analysis:
+
+1. **Create a new R script** called "mtcars_analysis.R" in your scripts folder
+2. **Write a comment** at the top describing what the script does
+3. **Load and explore the mtcars dataset**:
+   - Load the data with `data(mtcars)`
+   - Look at the first 6 rows
+   - Check the structure of the data
+   - Get summary statistics
+
+4. **Answer these specific questions using R code**:
+   - How many cars have more than 6 cylinders?
+   - What is the average horsepower of cars with automatic transmission? (Hint: `am == 0` means automatic)
+   - Which car has the best fuel efficiency (highest mpg)?
+   - Create a subset of cars that have both high fuel efficiency (>25 mpg) AND are lightweight (<3 weight units)
+
+5. **Work with factors**:
+   - Convert the `gear` variable to a factor
+   - Count how many cars have each number of gears
+   - Create a simple bar plot showing the gear distribution
+
+6. **Save your script** and make sure it runs from top to bottom without errors
+
+<details>
+<summary>**Click here to see the solutions**</summary>
+
+```{r, eval=FALSE}
+# mtcars_analysis.R
+# Analysis of car performance data from the mtcars dataset
+# Author: [Your name]
+# Date: [Today's date]
+
+# Load and explore the dataset
+data(mtcars)
+head(mtcars)
+str(mtcars)
+summary(mtcars)
+
+# Question 1: How many cars have more than 6 cylinders?
+cars_over_6_cyl <- mtcars[mtcars$cyl > 6, ]
+nrow(cars_over_6_cyl)
+# Alternative: sum(mtcars$cyl > 6)
+
+# Question 2: Average horsepower of automatic cars
+automatic_cars <- mtcars[mtcars$am == 0, ]
+mean(automatic_cars$hp)
+# Alternative: mean(mtcars$hp[mtcars$am == 0])
+
+# Question 3: Car with best fuel efficiency
+best_mpg_car <- mtcars[which.max(mtcars$mpg), ]
+rownames(best_mpg_car)
+best_mpg_car$mpg
+
+# Question 4: Efficient and lightweight cars
+efficient_light <- mtcars[mtcars$mpg > 25 & mtcars$wt < 3, ]
+nrow(efficient_light)
+rownames(efficient_light)
+
+# Question 5: Work with factors
+# Convert gear to factor
+mtcars$gear <- as.factor(mtcars$gear)
+
+# Count cars by gear
+table(mtcars$gear)
+
+# Create bar plot
+barplot(table(mtcars$gear),
+        main = "Number of Cars by Gear Count",
+        xlab = "Number of Gears",
+        ylab = "Count")
+```
+
+</details>
+
+### Bonus Challenge (Optional)
+
+If you finish early, try this additional challenge:
+
+- Find the car with the highest horsepower-to-weight ratio
+- Create a new variable called `efficiency_category` that labels cars as "High" (>25 mpg), "Medium" (15-25 mpg), or "Low" (<15 mpg)
+- Count how many cars fall into each efficiency category
+
+<details>
+<summary>**Bonus solutions**</summary>
+
+```{r, eval=FALSE}
+# Bonus Challenge Solutions
+
+# 1. Highest horsepower-to-weight ratio
+mtcars$hp_to_weight <- mtcars$hp / mtcars$wt
+best_ratio_car <- mtcars[which.max(mtcars$hp_to_weight), ]
+rownames(best_ratio_car)
+best_ratio_car$hp_to_weight
+
+# 2. Create efficiency categories using logical indexing
+# First create the variable with a default value
+mtcars$efficiency_category <- "Low"  # Start with all cars as "Low"
+
+# Then update specific cars based on conditions
+mtcars$efficiency_category[mtcars$mpg >= 15 & mtcars$mpg <= 25] <- "Medium"
+mtcars$efficiency_category[mtcars$mpg > 25] <- "High"
+
+# Convert to factor with logical order
+mtcars$efficiency_category <- factor(mtcars$efficiency_category, 
+                                   levels = c("Low", "Medium", "High"))
+
+
+# 3. Count cars in each category
+table(mtcars$efficiency_category)
+
+```
+
+</details>
+
+
+## Getting help
+
+- **In R**: Use `?function_name` to get help on any function
+- **RStudio**: Press F1 while cursor is on a function name
+- **Online**: Stack Overflow, RStudio Community, R documentation
+- **Error messages**: Read them carefully - they often tell you exactly what's wrong!
+- **For datasets**: Use `?dataset_name` (e.g., `?mtcars`) to learn about built-in datasets
+
+## Key takeaways
+
+- **R fundamentals**: Use R as a calculator, store values with `<-`, understand data structures (vectors, data frames, lists, matrices)
+- **Functions and arguments**: Use built-in functions like `mean()`, `sum()`, `sqrt()` with named/positional arguments, get help with `?function_name`
+- **Data exploration**: Access built-in datasets with `data()`, explore with `head()`, `str()`, `summary()`, extract columns with `$`
+- **Data subsetting**: Select rows/columns with bracket notation `[row, column]`, filter with conditions using `==`, `>`, `&`, `|`, find extremes with `which.max()`
+- **Factors for categories**: Convert text to factors with `as.factor()`, control level order, handle missing data, essential for plotting and analysis
+- **Best practices**: Write code in scripts with comments `#`, use descriptive variable names, organize projects, read error messages carefully
+
+$~$
