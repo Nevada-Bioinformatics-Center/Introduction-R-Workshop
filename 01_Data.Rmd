@@ -35,122 +35,6 @@ You can use R as a command line interface (CLI). A *command* is a way of giving 
 ```
 
 
-## How R Views Data
-
-R organizes information into different types of **data structures**. Understanding these structures is key to working effectively with R. Let's explore the main types:
-
-### Single Values (Scalars)
-The simplest data structure is a single value:
-
-```{r}
-# Numbers
-my_number <- 42
-my_number
-
-# Text (character strings)
-my_name <- "Nevada Bioinformatics"
-my_name
-
-# Logical values (TRUE/FALSE)
-my_logical <- TRUE
-my_logical
-```
-
-### Vectors
-A **vector** is a collection of values of the same type. Vectors are the building blocks of R:
-
-```{r}
-# Numeric vector
-ages <- c(25, 30, 35, 40)
-ages
-
-# Character vector
-names <- c("Alice", "Bob", "Charlie", "Diana")
-names
-
-# Logical vector
-passed_exam <- c(TRUE, FALSE, TRUE, TRUE)
-passed_exam
-```
-
-The `c()` function **c**ombines values into a vector. Notice how we use quotes for text but not for numbers or logical values.
-
-### Data Frames
-A **data frame** is like a spreadsheet - it has rows and columns where each column can be a different type of data:
-
-```{r}
-# Create a simple data frame
-student_data <- data.frame(
-  name = c("Alice", "Bob", "Charlie"),
-  age = c(25, 30, 35),
-  passed = c(TRUE, FALSE, TRUE)
-)
-student_data
-```
-
-### Lists
-A **list** can hold different types of objects, including other lists:
-
-```{r}
-# Create a list with different types of data
-my_list <- list(
-  numbers = c(1, 2, 3),
-  text = "Hello World",
-  data = student_data
-)
-my_list
-```
-
-### Matrices
-A **matrix** is like a data frame but all values must be the same type:
-
-```{r}
-# Create a 3x3 matrix
-my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
-my_matrix
-```
-
-## Checking Data Types
-
-R provides functions to check what type of data structure you're working with:
-
-```{r}
-# Check the type of object
-class(ages)         
-class(names)        
-class(student_data)  
-
-# Check the structure
-str(student_data)    
-
-# Check if it's a specific type
-is.vector(ages)     
-is.data.frame(ages)  
-```
-
-
-Understanding data structures helps you:
-
-- **Choose the right approach**: Different functions work with different data types
-- **Organize your data**: Knowing which structure fits your data best
-- **Read error messages**: Many errors relate to data type mismatches
-
-Let's see this in action:
-
-```{r}
-# This works - adding numbers
-numbers <- c(1, 2, 3, 4)
-sum(numbers)
-```
-
-
-```{r, eval=FALSE}
-
-# This doesn't work - trying to add text
-text <- c("a", "b", "c")
-sum(text)  # Would give an error!
-```
-
 
 ## Creating and Using Variables
 
@@ -364,6 +248,125 @@ round(x = 3.14159, digits = 2)
 
 **Best practice**: Use names for optional arguments to make your code clearer.
 
+
+## How R Views Data
+
+R organizes information into different types of **data structures**. Understanding these structures is key to working effectively with R. Let's explore the main types:
+
+### Single Values (Scalars)
+The simplest data structure is a single value:
+
+```{r}
+# Numbers
+my_number <- 42
+my_number
+
+# Text (character strings)
+my_name <- "Nevada Bioinformatics"
+my_name
+
+# Logical values (TRUE/FALSE)
+my_logical <- TRUE
+my_logical
+```
+
+### Vectors
+A **vector** is a collection of values of the same type. Vectors are the building blocks of R:
+
+```{r}
+# Numeric vector
+ages <- c(25, 30, 35, 40)
+ages
+
+# Character vector
+names <- c("Alice", "Bob", "Charlie", "Diana")
+names
+
+# Logical vector
+passed_exam <- c(TRUE, FALSE, TRUE, TRUE)
+passed_exam
+```
+
+The `c()` function **c**ombines values into a vector. Notice how we use quotes for text but not for numbers or logical values.
+
+### Data Frames
+A **data frame** is like a spreadsheet - it has rows and columns where each column can be a different type of data:
+
+```{r}
+# Create a simple data frame
+student_data <- data.frame(
+  name = c("Alice", "Bob", "Charlie"),
+  age = c(25, 30, 35),
+  passed = c(TRUE, FALSE, TRUE)
+)
+student_data
+```
+
+### Lists
+A **list** can hold different types of objects, including other lists:
+
+```{r}
+# Create a list with different types of data
+my_list <- list(
+  numbers = c(1, 2, 3),
+  text = "Hello World",
+  data = student_data
+)
+my_list
+```
+
+### Matrices
+A **matrix** is like a data frame but all values must be the same type:
+
+```{r}
+# Create a 3x3 matrix
+my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+my_matrix
+```
+
+## Checking Data Types
+
+R provides functions to check what type of data structure you're working with:
+
+```{r}
+# Check the type of object
+class(ages)         
+class(names)        
+class(student_data)  
+
+# Check the structure
+str(student_data)    
+
+# Check if it's a specific type
+is.vector(ages)     
+is.data.frame(ages)  
+```
+
+
+Understanding data structures helps you:
+
+- **Choose the right approach**: Different functions work with different data types
+- **Organize your data**: Knowing which structure fits your data best
+- **Read error messages**: Many errors relate to data type mismatches
+
+Let's see this in action:
+
+```{r}
+# This works - adding numbers
+numbers <- c(1, 2, 3, 4)
+sum(numbers)
+```
+
+
+```{r, eval=FALSE}
+
+# This doesn't work - trying to add text
+text <- c("a", "b", "c")
+sum(text)  # Would give an error!
+```
+
+
+
 ### Functions with Vectors
 
 Most R functions work with vectors (multiple values):
@@ -484,6 +487,11 @@ test_scores <- c(78, 85, 92, 88, 76, 95, 82, 90, 87, 79)
 # Your code here:
 
 ```
+
+
+
+
+
 
 
 ### Solutions
