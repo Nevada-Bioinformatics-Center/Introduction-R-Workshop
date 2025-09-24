@@ -2,11 +2,11 @@
 
 <img src="fig/Rlogo.png" alt="R logo" width="20%">
 
-Welcome to the Introduction to R Workshop by the Nevada Bioinformatics Center. This workshop is designed to get you started with R programming for data analysis and statistics.
+Welcome to the Introduction to R Workshop by the Nevada Bioinformatics Center with support from the NV INBRE Data Science Core. This workshop is designed to get you started with R programming for data analysis and statistics.
 
 ## Workshop Overview
 
-This hands-on workshop introduces participants to the R programming language and RStudio development environment. You'll learn essential skills for data manipulation, and exploration using R's powerful tools and packages.
+This hands-on workshop introduces participants to the R programming language and RStudio development environment. You'll learn essential skills for data manipulation and exploration using R's powerful tools and packages.
 
 ## Learning Objectives
 
