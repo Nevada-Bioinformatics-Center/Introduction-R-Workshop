@@ -76,8 +76,10 @@ This workshop uses several datasets for hands-on practice:
 ### Key R Packages
 The workshop covers installation and use of these essential packages:
 - `tidyverse` - A collection of data science packages
-- `dplyr` - Data manipulation
-- `tidyr` - Data tidying and reshaping
+    - `dplyr` - Data manipulation
+    - `tidyr` - Data tidying and reshaping
+    - `ggplot2` - Sophisticated data visualizations
+    - many more 
 
 
 ## Why Learn R?
@@ -113,6 +115,10 @@ No licensing fees, with a supportive community and transparent development proce
 **Nevada Bioinformatics Center**
 - Website: [Nevada Bioinformatics Center](https://www.unr.edu/bioinformatics)
 - For questions about this workshop or future training opportunities
+
+## Acknowledgment
+
+This training was developed with support from a grant from the National Institute of General Medical Sciences (GM103440) from the National Institutes of Health.
 
 ## License
 
