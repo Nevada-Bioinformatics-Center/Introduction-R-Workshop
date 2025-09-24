@@ -14,7 +14,7 @@ By the end of this workshop, you will be able to:
 - Install and navigate R and RStudio
 - Understand fundamental R concepts and data structures
 - Import, explore, and manipulate data using base R and tidyverse packages
-- Apply data transformation techniques using dplyr and tidyr
+- Wrangle and reshape data using dplyr and tidyr (e.g., (filtering, joining, pivoting, recoding)
 - Organize and manage R projects effectively
 
 ## Workshop Materials
@@ -40,7 +40,6 @@ By the end of this workshop, you will be able to:
 - Introduction to R packages and the tidyverse
 - Data manipulation with dplyr
 - Data reshaping with tidyr
-- Combining and transforming datasets
 
 ## Workshop Structure
 
@@ -74,11 +73,10 @@ This workshop uses several datasets for hands-on practice:
 - **RStudio** - Download from [RStudio](https://www.rstudio.com/products/rstudio/download/)
 
 ### Key R Packages
-The workshop covers installation and use of these essential packages:
+The workshop covers installation and use of:
 - `tidyverse` - A collection of data science packages
     - `dplyr` - Data manipulation
     - `tidyr` - Data tidying and reshaping
-    - `ggplot2` - Sophisticated data visualizations
     - many more 
 
 
