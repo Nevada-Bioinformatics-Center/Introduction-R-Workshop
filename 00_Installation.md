@@ -1,7 +1,7 @@
 ---
 title: Installing R and RStudio
 author: "Nevada Bioinformatics Center"
-date: "2025-06-12"
+date: "2025-09-25"
 output: 
   html_document:
     keep_md: true

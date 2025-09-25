@@ -1,7 +1,7 @@
 ---
 title: "Packages for Data Transformation"
 author: "Nevada Bioinformatics Center"
-date: "2025-06-12"
+date: "2025-09-25"
 output: 
   html_document:
     keep_md: true
@@ -1063,7 +1063,7 @@ write.csv(my_data, file = "output/my_data.csv", row.names = FALSE)
 my_loaded_data <- read.csv("output/my_data.csv")
 ```
 
-- The `file` argument is the path and filename where you want to save or load your data.
+- The `file` argument is the path and file name where you want to save or load your data.
 - `row.names = FALSE` is often used to avoid saving row numbers as an extra column.
 
 ### Saving plots as image files
@@ -1121,7 +1121,7 @@ Now you’ll find a file called `efficient_cars.csv` in your `output/` folder!
 
 ### Saving a basic plot
 
-Let’s make a simple plot and save it to your `figures/` folder. (We’ll cover plotting in depth in the next workshop.)
+Let’s make a simple plot and save it to your `figures/` folder. (We’ll cover plotting in depth in another workshop.)
 
 
 ``` r
@@ -1136,8 +1136,8 @@ dev.off()
 ```
 
 ```
-## quartz_off_screen 
-##                 2
+## png 
+##   2
 ```
 
 This creates a file called `mpg_vs_hp.png` in your `figures/` folder.

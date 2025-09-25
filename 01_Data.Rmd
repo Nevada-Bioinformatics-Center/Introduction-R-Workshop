@@ -246,7 +246,7 @@ round(digits = 2, x = 3.14159)
 round(x = 3.14159, digits = 2)
 ```
 
-**Best practice**: Use names for optional arguments to make your code clearer.
+**Best practice**: Use names for optional arguments or less used functions to make your code clearer. You can always use <tab> to list argument options.
 
 
 ## How R Views Data
